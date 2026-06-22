@@ -1,9 +1,18 @@
-import database from "infra/database.js";
-
 async function status(req, res) {
-  const result = await database.query("SELECT 1+1 as sum;");
-  console.log(result.rows);
-  res.status(200).json({ chave: "sao acima da média" });
+  const updatedAt = new Date().toISOString();
+
+  const databaseVersionResult = await database.query("SELECT version();");
+
+  console.log("Database version result:", databaseVersionResult);
+
+  res.status(200).json({
+    updated_at: updatedAt,
+    dependncies: {
+      database: {
+        version: "16.0",
+      },
+    },
+  });
 }
 
 export default status;
