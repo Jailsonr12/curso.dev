@@ -1,3 +1,5 @@
+import database from "infra/database.js";
+
 async function status(req, res) {
   const updatedAt = new Date().toISOString();
 
@@ -7,7 +9,7 @@ async function status(req, res) {
 
   res.status(200).json({
     updated_at: updatedAt,
-    dependncies: {
+    dependencies: {
       database: {
         version: "16.0",
       },
