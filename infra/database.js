@@ -1,19 +1,17 @@
 import { Client } from "pg";
 
 async function query(queryObject) {
+  const shouldUseSsl = !["localhost", "127.0.0.1"].includes(
+    process.env.POSTGRES_HOST,
+  );
+
   const client = new Client({
     host: process.env.POSTGRES_HOST,
     password: process.env.POSTGRES_PASSWORD,
     port: process.env.POSTGRES_PORT,
     user: process.env.POSTGRES_USER,
     database: process.env.POSTGRES_DB,
-  });
-  console.log("Connecting to database with config:", {
-    host: process.env.POSTGRES_HOST,
-    password: process.env.POSTGRES_PASSWORD,
-    port: process.env.POSTGRES_PORT,
-    user: process.env.POSTGRES_USER,
-    database: process.env.POSTGRES_DB,
+    ssl: shouldUseSsl,
   });
 
   try {
@@ -26,8 +24,6 @@ async function query(queryObject) {
   } finally {
     await client.end();
   }
-
-  return result;
 }
 
 export default {
