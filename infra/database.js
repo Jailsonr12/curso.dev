@@ -11,7 +11,7 @@ async function query(queryObject) {
     port: process.env.POSTGRES_PORT,
     user: process.env.POSTGRES_USER,
     database: process.env.POSTGRES_DB,
-    ssl: shouldUseSsl,
+    ssl: process.env.NODE_ENV === "development" ? false : true,
   });
 
   try {
