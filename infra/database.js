@@ -1,9 +1,6 @@
 import { Client } from "pg";
 
 async function query(queryObject) {
-  const shouldUseSsl = !["localhost", "127.0.0.1"].includes(
-    process.env.POSTGRES_HOST,
-  );
   let client;
   try {
     client = await getNewClient();
@@ -30,11 +27,11 @@ async function getNewClient() {
   await client.connect();
   return client;
 }
-
-export default {
+const database = {
   query,
   getNewClient,
 };
+export default database;
 
 function getSSLValues() {
   if (process.env.POSTGRES_CA) {
